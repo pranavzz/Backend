@@ -20,10 +20,10 @@ exports.createTodo = async(req,res)=>{
         console.error(err);
         console.log(err);
         res.status(500)
-        .json(){
+        .json({
             success:false,
             data:"Internal server error",
-            message:"Entry Created Successfully"
-        }
+            message:err.message,
+        })
     }
 }
