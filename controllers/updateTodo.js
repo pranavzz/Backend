@@ -2,19 +2,21 @@
 const Todo = require("../models/todo");
 
 // define route handler
-exports.createTodo = async(req,res)=>{
+exports.updateTodo = async(req,res)=>{
     // making it async as i dont want to interrupt with main thread
     try{
-        // extract title and description from request body
+        const {id} = req.params;
         const {title,description} = req.body;
-        // create a new todo object and insert into db
-        const response = await Todo.create({title,description});
-        // response is Todo class ka object
-        // send a json respsonse with a success flag
-        res.status(200).json({
+        const todo = await Todo.findByIdAndUpdate(
+            {_id:id},
+            {title,description,updatedAt:Date.now()},
+        )
+
+        res.status(200)
+        .json({
             success:true,
-            data:response,
-            message:"Entry Created Successfully"
+            data:todo,
+            message:"Data updated successfully"
         })
     }
     catch(err){
